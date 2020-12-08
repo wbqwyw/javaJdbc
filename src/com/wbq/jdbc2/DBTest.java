@@ -1,33 +1,34 @@
-package com.wbq.jdbc;
+package com.wbq.jdbc2;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
- * @ClassName PreparadeJdbc
+ * @ClassName DBTest
  * @Description TODO
  * @Author Administrator
- * @Date 2020/12/8 9:31
+ * @Date 2020/12/8 10:29
  * @Version 1.0
  */
-public class PreparadeJdbc {
+public class DBTest {
     public static void main(String[] args) {
-        Connection con = DBUtils.getConnection();
+        Connection con = JDBCUtil.getConnection();
+        Statement st = null;
         try {
-            PreparedStatement ps = con.prepareStatement("select * from employee where code = ?");
-            ps.setObject(1, 1);
-            ResultSet rs = ps.executeQuery();
+            st = con.createStatement();
+            ResultSet rs = st.executeQuery("select * from employee");
             while (rs.next()) {
                 String code = rs.getString("code");
                 String name = rs.getString("name");
                 String address = rs.getString("address");
                 System.out.println(code + "\t" + name + "\t" + address);
             }
-            DBUtils.colseAll(rs, ps, con);
+            JDBCUtil.closeAll(rs, st, con);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
     }
 }

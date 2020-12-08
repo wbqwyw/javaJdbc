@@ -27,11 +27,18 @@ public class DBUtils {
         }
         return con;
     }
-    public static void colseAll(ResultSet rs, Statement statement, Connection con){
+
+    public static void colseAll(ResultSet rs, Statement statement, Connection con) {
         try {
-            rs.close();
-            statement.close();
-            con.close();
+            if (rs != null) {
+                rs.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            if (con != null) {
+                con.close();
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
