@@ -13,17 +13,16 @@ import java.util.List;
  */
 public class JDBCDaoImpl {
 
-    public int update(Employee em) {
+    public static int update(Employee em) {
         Connection con = null;
         PreparedStatement ps = null;
         try {
             con = JDBCUtil.getConnection();
-            ps = con.prepareStatement("update table employee set code=?,name=?,address=?,borthdate=? where code =?");
-            ps.setInt(1, em.getCode());
-            ps.setString(2, em.getName());
-            ps.setString(3, em.getAddress());
-            ps.setDate(4, DateUtils.utilDateToSqlDate(em.getBorthdate()));
-            ps.setInt(5, em.getCode());
+            ps = con.prepareStatement("update  employee set name=?,address=?,borthdate=? where code =?");
+            ps.setString(1, em.getName());
+            ps.setString(2, em.getAddress());
+            ps.setDate(3, DateUtils.utilDateToSqlDate(em.getBorthdate()));
+            ps.setInt(4, em.getCode());
             return ps.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -31,16 +30,16 @@ public class JDBCDaoImpl {
         return 0;
     }
 
-    public int insert(Employee em) {
+    public static int insert(Employee em) {
         Connection con = null;
         PreparedStatement ps = null;
         try {
             con = JDBCUtil.getConnection();
-            ps = con.prepareStatement(" insert into employee (name,address,borthdate)values(???)");
+            ps = con.prepareStatement(" insert into employee (name,address,borthdate)values(?,?,?)");
             ps.setString(1, em.getName());
             ps.setString(2, em.getAddress());
             ps.setDate(3, em.getBorthdate());
-            ps.executeUpdate();
+            return ps.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
